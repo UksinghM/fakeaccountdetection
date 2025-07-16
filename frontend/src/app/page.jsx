@@ -1,10 +1,13 @@
 "use client";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import Image from "next/image";
 import RippleGrid from "./components/RippleGrid";
 
 export default function Home() {
   return (
     <div className="relative min-h-screen font-sans bg-black text-green-400 overflow-hidden">
+      <Navbar />
       {/* Animated Cyber Grid Background */}
       <RippleGrid
         gridColor="#00ff99"
@@ -58,11 +61,8 @@ export default function Home() {
             <p className="text-green-200 text-center">Expert assistance whenever you need it, with rapid response times.</p>
           </div>
         </div>
-        {/* Footer */}
-        <footer className="mt-16 text-green-700 text-sm text-center w-full">
-          &copy; {new Date().getFullYear()} SecureSphere Cybersecurity. All rights reserved.
-        </footer>
       </div>
+      <Footer />
     </div>
   );
 }
