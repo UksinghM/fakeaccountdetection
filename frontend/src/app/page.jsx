@@ -1,103 +1,68 @@
+"use client";
 import Image from "next/image";
+import RippleGrid from "./components/RippleGrid";
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+    <div className="relative min-h-screen font-sans bg-black text-green-400 overflow-hidden">
+      {/* Animated Cyber Grid Background */}
+      <RippleGrid
+        gridColor="#00ff99"
+        rippleIntensity={0.12}
+        gridSize={8.0}
+        gridThickness={10.0}
+        fadeDistance={2.0}
+        vignetteStrength={2.5}
+        glowIntensity={0.25}
+        opacity={0.7}
+        gridRotation={15}
+        mouseInteraction={true}
+        mouseInteractionRadius={1.5}
+        enableRainbow={false}
+      />
+      {/* Main content */}
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 py-16 gap-12">
+        {/* Hero Section */}
+        <div className="text-center max-w-2xl">
+          <div className="flex justify-center mb-6">
+            <Image src="/globe.svg" alt="Cyber Globe" width={64} height={64} />
+          </div>
+          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight mb-4 text-green-400 drop-shadow-lg">
+            SecureSphere Cybersecurity
+          </h1>
+          <p className="text-lg sm:text-2xl text-green-200 mb-8 font-mono">
+            Defend your digital world with next-gen security solutions. Real-time protection, threat intelligence, and peace of mind for your business and personal data.
+          </p>
           <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#features"
+            className="inline-block bg-green-500 text-black font-bold py-3 px-8 rounded-full shadow-lg hover:bg-green-400 transition-colors text-lg"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
+            Get Started
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        {/* Features Section */}
+        <div id="features" className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-12 w-full max-w-4xl">
+          <div className="bg-black/60 border border-green-700 rounded-xl p-6 flex flex-col items-center shadow-lg">
+            <Image src="/file.svg" alt="Threat Detection" width={40} height={40} className="mb-3" />
+            <h3 className="font-bold text-xl mb-2">Threat Detection</h3>
+            <p className="text-green-200 text-center">AI-powered monitoring to identify and neutralize cyber threats in real time.</p>
+          </div>
+          <div className="bg-black/60 border border-green-700 rounded-xl p-6 flex flex-col items-center shadow-lg">
+            <Image src="/window.svg" alt="Data Privacy" width={40} height={40} className="mb-3" />
+            <h3 className="font-bold text-xl mb-2">Data Privacy</h3>
+            <p className="text-green-200 text-center">End-to-end encryption and privacy controls to keep your information safe.</p>
+          </div>
+          <div className="bg-black/60 border border-green-700 rounded-xl p-6 flex flex-col items-center shadow-lg">
+            <Image src="/vercel.svg" alt="24/7 Support" width={40} height={40} className="mb-3" />
+            <h3 className="font-bold text-xl mb-2">24/7 Support</h3>
+            <p className="text-green-200 text-center">Expert assistance whenever you need it, with rapid response times.</p>
+          </div>
+        </div>
+        {/* Footer */}
+        <footer className="mt-16 text-green-700 text-sm text-center w-full">
+          &copy; {new Date().getFullYear()} SecureSphere Cybersecurity. All rights reserved.
+        </footer>
+      </div>
     </div>
   );
 }

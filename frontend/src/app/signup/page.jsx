@@ -1,5 +1,4 @@
 import React from 'react'
-import RippleGrid from "./components/RippleGrid";
 
 const page = () => {
   return (
