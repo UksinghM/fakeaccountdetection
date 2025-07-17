@@ -23,7 +23,19 @@ const Login = () => {
           router.push("/");
         })
         .catch((err) => {
-          toast.error("Login Failed");
+          if (err.response) {
+            // Server responded with a status other than 2xx
+            toast.error(`Login Failed: ${err.response.data.message || err.response.statusText}`);
+            console.error('Backend error:', err.response.data);
+          } else if (err.request) {
+            // No response received
+            toast.error('No response from server');
+            console.error('No response:', err.request);
+          } else {
+            // Other errors (e.g., parsing HTML as JSON)
+            toast.error('Login Failed: Unexpected error');
+            console.error('Error:', err.message);
+          }
         });
     },
   });
