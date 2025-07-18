@@ -198,11 +198,18 @@ const AccountChecker = () => {
                       
                       {section.title === "Profile Photo" ? (
                         <div className="flex flex-col md:flex-row gap-6 items-start">
-                          <img 
-                            src={section.data.url} 
-                            alt="Profile" 
-                            className="w-24 h-24 rounded-full object-cover border-2 border-purple-900/50 shadow-lg"
-                          />
+                          {console.log('Profile Photo section.data:', section.data)}
+                          {section.data.url || section.data.image ? (
+                            <img 
+                              src={section.data.url || section.data.image} 
+                              alt="Profile" 
+                              className="w-24 h-24 rounded-full object-cover border-2 border-purple-900/50 shadow-lg"
+                            />
+                          ) : (
+                            <div className="w-24 h-24 rounded-full border-2 border-purple-900/50 shadow-lg flex items-center justify-center text-pink-400 bg-black/40">
+                              No Image
+                            </div>
+                          )}
                           <div>
                             <p className={`font-mono ${
                               section.data.verdict === 'FAKE' ? 'text-pink-400' : 'text-green-400'

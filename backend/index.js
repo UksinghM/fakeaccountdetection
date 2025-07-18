@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const axios = require('axios');
+const cheerio = require('cheerio');
 
 // Import mongoose connection
 require('./connection');
@@ -73,6 +75,20 @@ app.post('/api/analyze-profile', (req, res) => {
     };
 
     res.json(analysisResult);
+});
+
+app.get('/api/instagram-profile-photo', async (req, res) => {
+  const { username } = req.query;
+  try {
+    const { data } = await axios.get(`https://www.instagram.com/${username}/`);
+    const $ = cheerio.load(data);
+    const script = $('script[type="application/ld+json"]').html();
+    const json = JSON.parse(script);
+    const profilePicUrl = json.image;
+    res.json({ profilePicUrl });
+  } catch (err) {
+    res.status(500).json({ error: 'Could not fetch profile photo' });
+  }
 });
 
 // Default routes

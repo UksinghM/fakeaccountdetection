@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Image from "next/image";
 import RippleGrid from "./components/RippleGrid";
+import { FaInstagram, FaFacebook, FaTwitter, FaLinkedin, FaTiktok } from "react-icons/fa";
 
 
 export default function Home() {
@@ -74,16 +75,22 @@ export default function Home() {
           </div>
           
           <div className="flex flex-wrap justify-center gap-8 mt-8 opacity-80 hover:opacity-100 transition-opacity">
-            {['twitter', 'instagram', 'facebook', 'linkedin', 'tiktok'].map((platform) => (
-              <div key={platform} className="h-12 w-12 relative grayscale hover:grayscale-0 transition-all">
-                <Image 
-                  src={`/${platform}-icon.svg`} 
-                  alt={`${platform} icon`} 
-                  fill 
-                  className="object-contain"
-                />
-              </div>
-            ))}
+            {/* Replace SVG icons with react-icons */}
+            <div className="h-12 w-12 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
+              <FaTwitter size={40} color="#1DA1F2" />
+            </div>
+            <div className="h-12 w-12 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
+              <FaInstagram size={40} color="#E1306C" />
+            </div>
+            <div className="h-12 w-12 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
+              <FaFacebook size={40} color="#1877F3" />
+            </div>
+            <div className="h-12 w-12 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
+              <FaLinkedin size={40} color="#0A66C2" />
+            </div>
+            <div className="h-12 w-12 flex items-center justify-center grayscale hover:grayscale-0 transition-all">
+              <FaTiktok size={40} color="#000000" />
+            </div>
           </div>
         </section>
 
