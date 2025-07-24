@@ -1,6 +1,7 @@
 const express = require('express');
 require('./connection'); // Connect to MongoDB
 const UserRouter = require('./routers/userRouter'); //importing user router
+const StoryRouter = require('./routers/storyRouter');
 const cors = require('cors');
 
 //creating new express app
@@ -18,6 +19,7 @@ app.use(cors({
 app.use(express.json()); //to parse json data from request body
 
 app.use('/user', UserRouter);
+app.use('/stories', StoryRouter);
 
 //routes or endpoints
 app.get('/', (req, res) => {
