@@ -11,7 +11,8 @@ const storySchema = new Schema({
   content: { type: String, required: true },
   author: { type: String, default: 'Anonymous' },
   createdAt: { type: Date, default: Date.now },
-  comments: [commentSchema]
+  comments: [commentSchema],
+  likes: { type: Number, default: 0 }
 });
 
 module.exports = model('Story', storySchema);

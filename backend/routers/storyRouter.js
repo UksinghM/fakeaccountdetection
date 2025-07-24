@@ -38,4 +38,17 @@ router.post('/:id/comments', async (req, res) => {
   }
 });
 
+// Like a story
+router.post('/:id/like', async (req, res) => {
+  try {
+    const story = await Story.findById(req.params.id);
+    if (!story) return res.status(404).json({ error: 'Story not found' });
+    story.likes += 1;
+    await story.save();
+    res.status(200).json({ likes: story.likes });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 module.exports = router;
