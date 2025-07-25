@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import Image from "next/image";
 
 const Login = () => {
-  const router = useRouter();
+  // Keep router in case you want to use it later, but do not use router.push
 
   const loginForm = useFormik({
     initialValues: {
@@ -15,27 +15,16 @@ const Login = () => {
       password: "",
     },
     onSubmit: (values) => {
+      // Use the user's simple login logic
       axios
         .post("http://localhost:5000/user/authenticate", values)
         .then((response) => {
           toast.success("Login Successful");
           localStorage.setItem("user", JSON.stringify(response.data));
-          router.push("/");
         })
         .catch((err) => {
-          if (err.response) {
-            // Server responded with a status other than 2xx
-            toast.error(`Login Failed: ${err.response.data.message || err.response.statusText}`);
-            console.error('Backend error:', err.response.data);
-          } else if (err.request) {
-            // No response received
-            toast.error('No response from server');
-            console.error('No response:', err.request);
-          } else {
-            // Other errors (e.g., parsing HTML as JSON)
-            toast.error('Login Failed: Unexpected error');
-            console.error('Error:', err.message);
-          }
+          console.log(err);
+          toast.error("Login Failed");
         });
     },
   });

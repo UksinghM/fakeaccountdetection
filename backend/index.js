@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 require('./connection'); // Connect to MongoDB
 const UserRouter = require('./routers/userRouter'); //importing user router

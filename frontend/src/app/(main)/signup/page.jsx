@@ -1,9 +1,17 @@
 "use client";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
-import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 import React from "react";
+import toast from "react-hot-toast";
+import * as Yup from "yup";
+
+const SignupSchema = Yup.object().shape({
+  name: Yup.string().min(2, "Too Short..!").max(50, "Too Long!").required("Required"),
+  email: Yup.string().email("Invalid email").required("Required"),
+  password: Yup.string().min(7, "Password is too short").required("Required"),
+  confirmPassword: Yup.string().required("Required").oneOf([Yup.ref('password'), null], 'Passwords must match'),
+});
 
 const Signup = () => {
   const router = useRouter();
@@ -13,25 +21,32 @@ const Signup = () => {
       name: "",
       email: "",
       password: "",
+      confirmPassword: ""
     },
-    onSubmit: (values) => {
-      axios
-        .post("http://localhost:5000/user/register", values)
-        .then((response) => {
-          toast.success("Signup Successful");
-          router.push("/login");
-        })
-        .catch((err) => {
-          toast.error("Signup Failed");
-        });
+    onSubmit: async (values, { resetForm }) => {
+      // Only send name, email, password to backend
+      const { name, email, password } = values;
+      try {
+        await axios.post("http://localhost:5000/user/add", { name, email, password });
+        toast.success("Successfully signup");
+        // Automatically log in after signup
+        const loginRes = await axios.post("http://localhost:5000/user/authenticate", { email, password });
+        localStorage.setItem("token", loginRes.data.token);
+        localStorage.setItem("user", JSON.stringify(loginRes.data.user));
+        router.push("/dashboard");
+        resetForm();
+      } catch (err) {
+        console.log(err);
+        toast.error("Something went wrong !!");
+      }
     },
+    validationSchema: SignupSchema,
   });
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-green-900 font-sans">
       <div className="relative bg-black/70 border border-green-600 rounded-2xl shadow-2xl p-8 w-full max-w-md backdrop-blur-md">
         <div className="flex justify-center mb-6">
-          {/* You can use your cyber logo here */}
           <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
             <circle cx="32" cy="32" r="30" stroke="#00ff99" strokeWidth="4" />
             <path d="M32 16L40 32H24L32 16Z" fill="#00ff99" />
@@ -53,10 +68,14 @@ const Signup = () => {
               id="name"
               name="name"
               onChange={signupForm.handleChange}
+              onBlur={signupForm.handleBlur}
               value={signupForm.values.name}
               className="w-full px-4 py-3 rounded-lg bg-black/40 border border-green-700 text-green-200 focus:outline-none focus:ring-2 focus:ring-green-400 font-mono"
               required
             />
+            {signupForm.touched.name && signupForm.errors.name && (
+              <p className="text-xs text-red-400 mt-1">{signupForm.errors.name}</p>
+            )}
           </div>
           <div>
             <label htmlFor="email" className="block text-green-300 mb-2 font-mono">
@@ -67,10 +86,14 @@ const Signup = () => {
               id="email"
               name="email"
               onChange={signupForm.handleChange}
+              onBlur={signupForm.handleBlur}
               value={signupForm.values.email}
               className="w-full px-4 py-3 rounded-lg bg-black/40 border border-green-700 text-green-200 focus:outline-none focus:ring-2 focus:ring-green-400 font-mono"
               required
             />
+            {signupForm.touched.email && signupForm.errors.email && (
+              <p className="text-xs text-red-400 mt-1">{signupForm.errors.email}</p>
+            )}
           </div>
           <div>
             <label htmlFor="password" className="block text-green-300 mb-2 font-mono">
@@ -81,10 +104,32 @@ const Signup = () => {
               id="password"
               name="password"
               onChange={signupForm.handleChange}
+              onBlur={signupForm.handleBlur}
               value={signupForm.values.password}
               className="w-full px-4 py-3 rounded-lg bg-black/40 border border-green-700 text-green-200 focus:outline-none focus:ring-2 focus:ring-green-400 font-mono"
               required
             />
+            {signupForm.touched.password && signupForm.errors.password && (
+              <p className="text-xs text-red-400 mt-1">{signupForm.errors.password}</p>
+            )}
+          </div>
+          <div>
+            <label htmlFor="confirmPassword" className="block text-green-300 mb-2 font-mono">
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              onChange={signupForm.handleChange}
+              onBlur={signupForm.handleBlur}
+              value={signupForm.values.confirmPassword}
+              className="w-full px-4 py-3 rounded-lg bg-black/40 border border-green-700 text-green-200 focus:outline-none focus:ring-2 focus:ring-green-400 font-mono"
+              required
+            />
+            {signupForm.touched.confirmPassword && signupForm.errors.confirmPassword && (
+              <p className="text-xs text-red-400 mt-1">{signupForm.errors.confirmPassword}</p>
+            )}
           </div>
           <button
             type="submit"
